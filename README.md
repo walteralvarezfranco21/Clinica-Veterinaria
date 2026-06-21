@@ -1,27 +1,52 @@
-# ClinicaVeterinaria
+# 🐾 Agenda Veterinaria - Sistema de Gestión de Citas
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Sistema web profesional desarrollado con **Angular** para la optimización de flujos de trabajo en clínicas veterinarias. Esta aplicación permite la gestión centralizada de citas, seguimiento de pacientes y control de la agenda diaria en tiempo real.
 
-## Development server
+## 🚀 Características Principales
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+* **Centro de Control:** Visualización interactiva de la agenda del día con soporte para múltiples franjas horarias.
+* **Gestión Inteligente:** Creación y cancelación de citas con actualización de estados en tiempo real.
+* **Búsqueda Avanzada:** Filtros dinámicos por nombre de mascota y propietario.
+* **Línea de Tiempo:** Seguimiento cronológico visual de las actividades programadas.
+* **Resumen de Gestión:** Estadísticas rápidas y acceso a las próximas tres citas pendientes.
+* **Interfaz Responsiva:** Diseño limpio, intuitivo y adaptado para dispositivos móviles.
 
-## Code scaffolding
+## 🛠 Tecnologías Utilizadas
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+* **Frontend:** Angular (Standalone Components).
+* **UI/UX:** Bootstrap 5 & CSS3.
+* **Iconografía:** Bootstrap Icons.
+* **Lógica:** TypeScript & RxJS para el manejo de estados reactivos.
 
-## Build
+## 📂 Estructura del Proyecto
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```text
+src/app/
+├── features/       # Componentes de funcionalidad (Agenda, Historial, Registro)
+├── models/         # Definición de interfaces de datos (Cita, Mascota, Historial)
+├── services/       # Gestión centralizada de datos (Servicios de Cita, Mascota, Paciente)
+└── shared/         # Elementos reutilizables (Pipes, Directivas)
+🏗 Instalación y Ejecución
+Para correr el proyecto en tu entorno local, asegúrate de tener instalado Node.js.
 
-## Running unit tests
+Clonar el repositorio:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Bash
+git clone [https://github.com/TU_USUARIO/clinica-veterinaria.git](https://github.com/TU_USUARIO/clinica-veterinaria.git)
+cd clinica-veterinaria
+Instalar dependencias:
 
-## Running end-to-end tests
+Bash
+npm install
+Ejecutar el servidor:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Bash
+ng serve
+Accede a http://localhost:4200/ en tu navegador.
 
-## Further help
+💡 Aspectos Técnicos Destacados
+Arquitectura: Implementación de Standalone Components para un código más modular y eficiente.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Reactividad: Uso de Observables para que la interfaz se actualice automáticamente al modificar cualquier dato (cancelaciones, nuevas citas).
+
+Diseño CSS: Implementación de contenedores con scroll independiente para mantener la navegación fija y mejorar la UX.
