@@ -1,0 +1,110 @@
+<div class="container-fluid p-4" style="background-color: #e8f3f2; height: 100vh; display: flex; flex-direction: column;">
+  
+  <div class="row mb-3">
+    <div class="col-12">
+      <h3 style="color: #2c5e5e; font-weight: 700;">CENTRO DE CONTROL - AGENDA VETERINARIA</h3>
+    </div>
+  </div>
+
+  <div class="row mb-4 align-items-center p-3 rounded shadow-sm border" 
+       style="background-color: #d1e2e2; border-color: #b2c9c9 !important;">
+    <div class="col-md-3">
+      <input type="date" class="form-control" [value]="fechaSeleccionada" (change)="onFechaChange($event)">
+    </div>
+    <div class="col-md-5">
+      <div class="input-group">
+        <span class="input-group-text border-0 bg-white"><i class="bi bi-search"></i></span>
+        <input type="text" class="form-control border-0" [(ngModel)]="busqueda" placeholder="🔍 Buscar por nombre de mascota o dueño...">
+      </div>
+    </div>
+    <div class="col-md-4 text-end">
+      <div class="d-flex justify-content-end gap-2">
+        <a routerLink="/historial" class="btn btn-outline-secondary px-4 fw-bold shadow-sm">HISTORIAL</a>
+        <button class="btn px-4 fw-bold shadow-sm" style="background-color: #2c5e5e; color: white;" routerLink="/registro">
+          + NUEVA CITA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row flex-grow-1 overflow-hidden">
+    
+    <div class="col-md-8 d-flex flex-column h-100">
+      <h5 class="mb-3" style="color: #2c5e5e; font-weight: 600;">AGENDA DEL DÍA</h5>
+      
+      <div class="flex-grow-1 overflow-y-auto pe-2" style="scrollbar-width: thin;">
+        <div *ngFor="let hora of horas" class="d-flex mb-2 align-items-center">
+          <div style="width: 70px; font-weight: 600; color: #5a7d7d;" class="py-2">{{ hora }}</div>
+          
+          <div class="flex-grow-1">
+            <div *ngIf="getCitaPorHora(hora) as cita" 
+                 class="card shadow-sm mb-1 border-0"
+                 [style.border-left]="'8px solid ' + (cita.estado === 'Confirmada' ? '#8bc34a' : '#ffcc80')"
+                 style="border-radius: 6px;">
+              <div class="card-body py-2 px-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <a [routerLink]="['/historial', cita.id]" class="me-3" title="Ver Historial Clínico">
+                      <i class="bi bi-file-earmark-medical" style="font-size: 1.5rem; color: #2c5e5e;"></i>
+                    </a>
+                    <div>
+                      <strong class="fs-6" style="color: #2c5e5e;">{{ cita.mascotaNombre | uppercase }} ({{ cita.tipo | uppercase }})</strong>
+                      <br><small class="text-muted">Dueño: {{ cita.dueno }}</small>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <button (click)="cancelarCita(cita.id)" class="btn btn-sm btn-outline-danger me-3"><i class="bi bi-trash"></i></button>
+                    <span class="badge rounded-pill px-3" [ngStyle]="{'background-color': cita.estado === 'Confirmada' ? '#c8e6c9' : '#ffe0b2', 'color': cita.estado === 'Confirmada' ? '#2e7d32' : '#ef6c00'}">
+                      {{ cita.estado | uppercase }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <a *ngIf="!getCitaPorHora(hora)" routerLink="/registro" [queryParams]="{ hora: hora, fecha: fechaSeleccionada }"
+               class="d-block p-2 text-center rounded shadow-sm mb-1 text-decoration-none" 
+               style="border: 1px dashed #b2c9c9; color: #5a7d7d; background-color: #d1e2e2; font-size: 0.9rem;">
+               + AGENDAR
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 h-100 overflow-y-auto">
+      
+      <div class="card shadow-sm p-4 mb-3 border-0 rounded" style="background-color: #f7fbfb;">
+        <h5 class="fw-bold" style="color: #2c5e5e;">RESUMEN DE HOY</h5>
+        <hr>
+        <h2 class="display-6 fw-bold" style="color: #2c5e5e;">{{ citas.length }} <small class="text-muted fs-6">CITAS TOTALES</small></h2>
+        <hr>
+        <h5 class="fw-bold" style="color: #2c5e5e;">PRÓXIMAS CITAS (Top 3)</h5>
+        <ul class="list-unstyled text-muted small">
+          <li *ngFor="let cita of getProximasCitas()">
+            {{ cita.hora }} {{ cita.mascotaNombre }} ({{ cita.tipo }}) - {{ cita.dueno }}
+          </li>
+          <li *ngIf="getProximasCitas().length === 0" class="fst-italic">No hay citas pendientes.</li>
+        </ul>
+      </div>
+
+      <div class="card shadow-sm p-4 mb-3 border-0 rounded" style="background-color: #f7fbfb;">
+        <h5 class="fw-bold mb-3" style="color: #2c5e5e;">LÍNEA DE TIEMPO</h5>
+        <div style="border-left: 2px solid #d1e2e2; margin-left: 10px; padding-left: 20px;">
+          
+          <div *ngFor="let cita of citasOrdenadas" class="mb-4" style="position: relative;">
+            <div style="position: absolute; left: -27px; width: 12px; height: 12px; background: #2c5e5e; border-radius: 50%;"></div>
+            <small class="text-muted d-block">{{ cita.hora }}</small>
+            <p class="mb-0 fw-bold" style="color: #2c5e5e;">{{ cita.mascotaNombre }}</p>
+            <small>{{ cita.tipo }} | {{ cita.dueno }}</small>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="card shadow-sm p-3 border-0 rounded text-center" style="background-color: #d1e2e2;">
+        <a routerLink="/registro" class="fw-bold text-decoration-none" style="color: #2c5e5e;">[REGISTRAR PACIENTE]</a>
+      </div>
+    </div>
+  </div>
+</div>

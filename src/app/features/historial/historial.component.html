@@ -1,0 +1,91 @@
+<div class="container mt-4">
+  
+  <div *ngIf="modoGeneral">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 style="color: #2c5e5e; font-weight: 700;">HISTORIAL CLÍNICO DE PACIENTES</h2>
+      <a routerLink="/agenda" class="btn btn-outline-primary">« VOLVER A AGENDA</a>
+    </div>
+
+    <div class="row">
+      <div *ngIf="listaPacientes.length === 0" class="col-12 text-center mt-5">
+        <p class="text-muted">No hay pacientes registrados aún.</p>
+      </div>
+
+      <div class="col-md-4" *ngFor="let p of listaPacientes">
+        <div class="card shadow-sm mb-4 border-0" style="border-left: 5px solid #2c5e5e;">
+          <div class="card-body">
+            <h5 class="card-title fw-bold" style="color: #2c5e5e;">{{ p.nombreMascota | uppercase }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Dueño: {{ p.nombreDueno }}</h6>
+            <hr>
+            <p class="card-text mb-1"><small><strong>Especie:</strong> {{ p.especie }}</small></p>
+            <p class="card-text mb-1"><small><strong>Género:</strong> {{ p.genero }}</small></p>
+            <p class="card-text mb-3"><small><strong>Edad:</strong> {{ p.edad }} años</small></p>
+            
+            <a [routerLink]="['/historial', p.id]" 
+               class="btn btn-sm w-100 text-white text-decoration-none" 
+               style="background-color: #2c5e5e;">
+               VER HISTORIAL
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!modoGeneral && mascotaSeleccionada">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 style="color: #2c5e5e; font-weight: 700;">HISTORIAL: {{ mascotaSeleccionada.nombreMascota | uppercase }}</h2>
+      <div>
+        <a routerLink="/historial" class="btn btn-outline-secondary me-2">« VOLVER A LISTA</a>
+        <a routerLink="/agenda" class="btn btn-outline-primary">« VOLVER A AGENDA</a>
+      </div>
+    </div>
+
+    <div class="card shadow-sm p-4 border-0">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h5 style="color: #2c5e5e;">Datos del Paciente</h5>
+          <p class="mb-1"><strong>Dueño:</strong> {{ mascotaSeleccionada.nombreDueno }}</p>
+          <p class="mb-1"><strong>DNI:</strong> {{ mascotaSeleccionada.dni }}</p>
+          <p class="mb-1"><strong>Teléfono:</strong> {{ mascotaSeleccionada.telefono }}</p>
+        </div>
+        <div class="col-md-6">
+          <h5 style="color: #2c5e5e;">Detalles Clínicos</h5>
+          <p class="mb-1"><strong>Especie:</strong> {{ mascotaSeleccionada.especie }}</p>
+          <p class="mb-1"><strong>Raza:</strong> {{ mascotaSeleccionada.raza }}</p>
+          <p class="mb-1"><strong>Género:</strong> {{ mascotaSeleccionada.genero }}</p>
+          <p class="mb-1"><strong>Edad:</strong> {{ mascotaSeleccionada.edad }} años</p>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 style="color: #2c5e5e;">Eventos Clínicos</h5>
+        <button class="btn btn-sm btn-outline-danger" (click)="eliminarRegistro(mascotaSeleccionada.id)">
+          <i class="bi bi-trash"></i> ELIMINAR HISTORIAL COMPLETO
+        </button>
+      </div>
+
+      <div *ngIf="mascotaSeleccionada.historial && mascotaSeleccionada.historial.length > 0; else noEventos">
+        <div class="list-group">
+          <div class="list-group-item mb-2 border-start border-4 shadow-sm" *ngFor="let evento of mascotaSeleccionada.historial" style="border-left-color: #2c5e5e;">
+            <div class="d-flex w-100 justify-content-between">
+              <h6 class="mb-1 fw-bold" style="color: #2c5e5e;">{{ evento.tipo }}</h6>
+              <small class="text-muted"><i class="bi bi-calendar-event"></i> {{ evento.fecha | date:'dd MMM yyyy' }}</small>
+            </div>
+            <p class="mb-2">{{ evento.detalle }}</p>
+            <div class="d-flex gap-3">
+              <span class="badge bg-light text-dark border"><strong>Peso:</strong> {{ evento.peso }}</span>
+              <span class="badge bg-light text-dark border"><strong>Atendido por:</strong> {{ evento.atendidoPor }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noEventos>
+        <p class="text-muted fst-italic">No hay registros de eventos clínicos previos.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

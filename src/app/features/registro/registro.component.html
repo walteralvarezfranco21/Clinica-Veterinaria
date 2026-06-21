@@ -1,0 +1,73 @@
+<div class="container mt-4">
+  <div class="card shadow-sm p-4 border-0">
+    <h3 class="mb-4" style="color: #2c5e5e; font-weight: 700;">NUEVO REGISTRO DE PACIENTE</h3>
+    
+    <form [formGroup]="registroForm" (ngSubmit)="guardarPaciente()">
+      <input type="hidden" formControlName="fecha">
+      
+      <div class="row" *ngIf="esCitaProgramada">
+        <div class="col-md-12 mb-4">
+          <div class="p-3 rounded" style="background-color: #d1e2e2; border: 1px solid #b2c9c9;">
+            <label class="form-label fw-bold" style="color: #2c5e5e;">Cita programada para:</label>
+            <input type="text" formControlName="hora" class="form-control-plaintext fw-bold fs-5" readonly style="color: #2c5e5e;">
+          </div>
+        </div>
+      </div>
+
+      <h5 style="color: #2c5e5e;" class="mt-3">Sección A: Datos del Dueño</h5>
+      <hr>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nombre Completo</label>
+          <input formControlName="nombreDueno" class="form-control" placeholder="Juan Pérez">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">DNI</label>
+          <input formControlName="dni" class="form-control" placeholder="12345678">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Teléfono</label>
+          <input formControlName="telefono" class="form-control" placeholder="Ej: 999 999 999">
+        </div>
+      </div>
+
+      <h5 style="color: #2c5e5e;" class="mt-4">Sección B: Datos de la Mascota</h5>
+      <hr>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nombre</label>
+          <input formControlName="nombreMascota" class="form-control" placeholder="Firulais">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Especie</label>
+          <select formControlName="especie" class="form-select">
+            <option value="Perro">Perro</option>
+            <option value="Gato">Gato</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Raza</label>
+          <input formControlName="raza" class="form-control">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Edad</label>
+          <input type="number" formControlName="edad" class="form-control">
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end mt-4">
+        <button type="button" class="btn btn-outline-secondary me-2" routerLink="/agenda">CANCELAR</button>
+        <button type="submit" class="btn btn-lg px-5" 
+                style="background-color: #2c5e5e; color: white;" 
+                [disabled]="registroForm.invalid">
+          GUARDAR PACIENTE
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

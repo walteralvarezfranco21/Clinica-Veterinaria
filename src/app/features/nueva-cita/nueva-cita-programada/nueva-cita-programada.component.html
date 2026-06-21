@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <div class="card shadow-sm border-0 p-4">
+    <h3 class="fw-bold mb-4" style="color: #2c5e5e;">PROGRAMAR NUEVA CITA</h3>
+    
+    <form>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Fecha de la Cita</label>
+          <input type="date" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Hora</label>
+          <input type="time" class="form-control" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nombre del Dueño / Cliente</label>
+        <input type="text" class="form-control" placeholder="Ej: Juan Pérez">
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Nombre de la Mascota</label>
+          <input type="text" class="form-control" placeholder="Ej: Firulais">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Especie</label>
+          <select class="form-select">
+            <option>Perro</option>
+            <option>Gato</option>
+            <option>Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label">Motivo de la Consulta</label>
+        <textarea class="form-control" rows="3" placeholder="Describe brevemente el motivo..."></textarea>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button type="button" routerLink="/agenda" class="btn btn-outline-secondary me-2">Cancelar</button>
+        <button type="submit" class="btn px-4" style="background-color: #2c5e5e; color: white;">Guardar Cita</button>
+      </div>
+    </form>
+  </div>
+</div>
